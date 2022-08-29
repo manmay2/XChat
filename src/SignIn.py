@@ -1,8 +1,8 @@
 def signin(cursor):
-    user_id = input("Enter your user name to login: ")
+    user_id = input("Enter your user name to login: ").strip()
+    paswd = input("Enter the password to login: ").strip()
     f = 0
     inc = 0
-    paswd = input("Enter the password to login: ")
     cursor.execute("select * from signup;")
     data = cursor.fetchall()
     for i in data:
