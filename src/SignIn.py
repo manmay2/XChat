@@ -23,5 +23,5 @@ def signin(cursor):
         ch=int(input("-----WHOM DO YOU WANT TO CHAT-----"))
         
         cursor.execute("create table if not exists {0}({1} varchar(10000000000)),{2} varchar(10000000000)".format(user_id+paswd))
-s        
+        
      
