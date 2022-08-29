@@ -22,7 +22,7 @@ def signin(cursor):
                 print(inc, ".", j[0])
         ch = int(input("-----WHOM DO YOU WANT TO CHAT-"))
         try:
-            query = f"create table if not exists {user_id+str(data[ch-1][0])}({user_id} varchar(65535),{str(data[ch-1][0])} varchar(65535))"
+            query = f"create table if not exists {user_id+str(data[ch-1][0])}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
             cursor.execute(query)
         except:
             print("Error occured....Try again later....")
