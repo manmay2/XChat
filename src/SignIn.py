@@ -20,7 +20,7 @@ def signin(cursor):
             else:
                 inc += 1
                 print(inc, ".", j[0])
-        ch = int(input("-----WHOM DO YOU WANT TO CHAT-"))
+        ch = int(input("WHOM DO YOU WANT TO CHAT--- : "))
         try:
             query = f"create table if not exists {user_id+str(data[ch-1][0])}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
             cursor.execute(query)
