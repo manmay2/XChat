@@ -1,7 +1,7 @@
 def signin(cursor):
     user_id = input("Enter your user name to login: ").strip()
     paswd = input("Enter the password to login: ").strip()
-    f = 0
+    flag = 0
     inc = 0
     cursor.execute("select * from signup;")
     data = cursor.fetchall()
@@ -9,10 +9,10 @@ def signin(cursor):
         if(i[0] == user_id and i[1] == paswd):
             print("YOU ARE SUCCESSFULLY SIGNED IN")
             print("___________________________________________________")
-            f = 1
-    if f != 1:
+            flag = 1
+    if flag != 1:
         print("PLEASE CHECK YOUR USERNAME AND PASSWORD AND TRY AGAIN LATER!!!!")
-    elif(f == 1):
+    elif(flag == 1):
         data.remove((user_id, paswd))
         for j in data:
             if(j[0] == user_id and j[1] == paswd):
