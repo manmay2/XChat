@@ -1,4 +1,5 @@
-def signin(cursor):
+from main import *
+def signin(cursor,mycon):
     user_id = input("Enter your user name to login: ").strip()
     paswd = input("Enter the password to login: ").strip()
     flag = 0
@@ -21,10 +22,26 @@ def signin(cursor):
                 inc += 1
                 print(inc, ".", j[0])
         ch = int(input("WHOM DO YOU WANT TO CHAT--- : "))
-        table_name=user_id+str(data[ch-1][0])
-        query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
-        cursor.execute(query)
+        cond1=user_id+str(data[ch-1][0])
+        cond2=str(data[ch-1][0])+user_id
+        cursor.execute("show tables;")
+        tables=cursor.fetchall()
+        for temp in tables:
+            if temp[0]==cond1 or temp[0]==cond2:
+                table_name=temp[0]
+        else:
+            query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
+            cursor.execute(query)
         print()
-        
+        try:
+            i=0
+            while True:
+                if i==0:
+                    fetchall(cursor,user_id,data[ch-1][0],table_name)
+                    i=1
+                push(cursor,mycon,user_id,table_name)
+                fetch(cursor,table_name,data[ch-1][0])
+        except:
+            print("Logged Out")
         
         
