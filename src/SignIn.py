@@ -24,7 +24,7 @@ def signin(cursor):
         table_name=user_id+str(data[ch-1][0])
         query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
         cursor.execute(query)
-        print(user_id,":")
-        text=input()
-        cursor.execute("insert into {} values('{}','{}')".format(table_name,text," "))
+        print()
+        
+        
         
