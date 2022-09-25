@@ -29,18 +29,18 @@ def signin(cursor,mycon):
         for temp in tables:
             if temp[0]==cond1 or temp[0]==cond2:
                 table_name=temp[0]
+                break
         else:
+            table_name=cond1
+        try:
             query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
             cursor.execute(query)
+        except:
+            print("Error occured.ABC.Try again later..")
         print()
         try:
-            i=0
-            while True:
-                if i==0:
-                    fetchall(cursor,user_id,data[ch-1][0],table_name)
-                    i=1
-                push(cursor,mycon,user_id,table_name)
-                fetch(cursor,table_name,data[ch-1][0])
+            fetchall(cursor,user_id,data[ch-1][0],table_name)
+            multi(cursor,mycon,user_id,data[ch-1][0],table_name)
         except:
             print("Logged Out")
         
