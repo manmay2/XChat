@@ -1,5 +1,7 @@
 from main import *
-def signin(cursor,mycon):
+
+
+def signin(cursor, mycon, s):
     user_id = input("Enter your user name to login: ").strip()
     paswd = input("Enter the password to login: ").strip()
     flag = 0
@@ -22,26 +24,23 @@ def signin(cursor,mycon):
                 inc += 1
                 print(inc, ".", j[0])
         ch = int(input("WHOM DO YOU WANT TO CHAT--- : "))
-        cond1=user_id+str(data[ch-1][0])
-        cond2=str(data[ch-1][0])+user_id
+        user_id = ''.join(user_id.split())
+        chat_user = ''.join(str(data[ch-1][0]).split())
+        cond1 = user_id+str(chat_user)
+        cond2 = str(chat_user)+user_id
         cursor.execute("show tables;")
-        tables=cursor.fetchall()
+        tables = cursor.fetchall()
         for temp in tables:
-            if temp[0]==cond1 or temp[0]==cond2:
-                table_name=temp[0]
+            if temp[0] == cond1 or temp[0] == cond2:
+                table_name = temp[0]
                 break
         else:
-            table_name=cond1
+            table_name = cond1
         try:
-            query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(data[ch-1][0])} LONGTEXT);"
+            query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(chat_user)} LONGTEXT);"
             cursor.execute(query)
         except:
-            print("Error occured.ABC.Try again later..")
+            print("Error occured....Try again later....")
         print()
-        try:
-            fetchall(cursor,user_id,data[ch-1][0],table_name)
-            multi(cursor,mycon,user_id,data[ch-1][0],table_name)
-        except:
-            print("Logged Out")
-        
-        
+        fetchall(cursor, user_id, chat_user, table_name)
+        multi(cursor, mycon, user_id, chat_user, table_name, s)
