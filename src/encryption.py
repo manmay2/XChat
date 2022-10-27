@@ -131,8 +131,6 @@ def encrypt(password: str, private_key: str = "") -> str:
 def decrypt(encypted_data, private_key: str = ""):
     """Decrypts the given input to original form"""
     from sls import SLS_BOX, PRIVATE_KEY
-    if len(encypted_data) % 2 != 0:
-        return ValueError
     if private_key == "":
         private_key = PRIVATE_KEY
     encypted_value = []
@@ -150,16 +148,10 @@ def decrypt(encypted_data, private_key: str = ""):
 
 def generate_key(name: str) -> str:
     """Generates unique Key for current session"""
-    import random
     key = 0
     for i in name:
         key += ord(i)
     key = STRING_TO_BINARY(chr(key))
-    unique_key = ""
-    dataSet = ["0", "1"]
-    for i in range(0, len(key)):
-        unique_key += random.choice(dataSet)
-    key = XNOR(key, unique_key)
     if len(key) > 8:
         sub_key1, sub_key2 = key[:len(key)//2], key[len(key)//2:]
         if len(sub_key1) < 8:

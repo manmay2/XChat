@@ -1,7 +1,7 @@
 import mysql.connector as s
 from SignIn import *
 from SignUp import *
-from tkinter import Label, Radiobutton, IntVar, Toplevel, Tk
+from tkinter import Frame, Label, PhotoImage, Radiobutton, IntVar, Toplevel, Tk
 import os
 # print("........WELCOME TO THE WORLD OF XCHAT APP.........")
 
@@ -10,10 +10,10 @@ try:
         title.configure(text=tex)
         choice = sButton.get()
         messageBox.destroy()
-        if(choice == 1):
-            signup(root, mycon, cursor)
-        elif(choice == 2):
-            signin(title, root, cursor, mycon, s)
+        if (choice == 1):
+            signup(root, but, mycon, cursor)
+        elif (choice == 2):
+            signin(title, root, but, cursor, mycon, s)
 
     mycon = s.connect(host=os.environ.get("DB_SERVER"), user=os.environ.get("DB_USER"),
                       password=os.environ.get("DB_PASS"), database=os.environ.get("DB_NAME"))
@@ -23,21 +23,41 @@ try:
         cursor.execute(
             "create table if not exists signup(username varchar(200) primary key,password LONGTEXT,status varchar(7) default 'Offline')")
 
+        def disable_event():
+            pass
         root = Tk()
-        root.minsize(400, 700)
-        root.maxsize(400, 700)
+        # root.wm_overrideredirect(True)
+        root.resizable(False, False)
+        root.protocol("WM_DELETE_WINDOW", disable_event)
+        width = 400
+        height = 700
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        x = (screen_width/2) - (width/2)
+        y = (screen_height/2) - (height/2)
+        root.geometry('%dx%d+%d+%d' % (width, height, x, y))
+
+        frame1 = Frame(root, bd=0, bg="#323232", width=width,
+                       height=50).place(x=0, y=0)
+        # powerOff = PhotoImage(file="images/power-button.png")
+        but = Button(frame1, text="OFF", bd=0, bg="#323232",
+                     fg="#323232")
+        but.place(x=width-60, y=5)
         root.configure(background="#323232")
-        root.eval('tk::PlaceWindow . center')
         root.title("XChat")
         choice = 0
         sButton = IntVar()
 
         messageBox = Toplevel(root)
-        messageBox.minsize(400, 300)
-        messageBox.maxsize(400, 300)
-        messageBox.configure(background="#323232")
+        messageBox.wm_overrideredirect(True)
         messageBox.focus_force()
-        root.eval(f'tk::PlaceWindow {str(messageBox)} center')
+        messageBox.lift()
+        messageBox.attributes("-topmost", True)
+        messageBox.geometry(
+            '%dx%d+%d+%d' % (width, height-width, x, (screen_height/2) - (height/2) + 250))
+        messageBox.configure(background="#323232")
         Label(messageBox, text="Select the option", width=30, bg="#323232", fg="white",
               pady=15, font=("Times New Roman", 20)).pack()
 
@@ -53,12 +73,12 @@ try:
 
         # choice = int(input("ENTER YOUR CHOICE: "))
 
-        title = Label(root, text="", bg="#323232", fg="white",
+        title = Label(root, bg="#323232", fg="white",
                       font=("Times New Roman", 40))
         title.pack(pady=40)
 
         root.mainloop()
     else:
         print("Connected Failed....")
-except:
-    print("\nSomething error occured...Try after sometime")
+except Exception as e:
+    print("\nSomething error occured...Try after sometime", e)

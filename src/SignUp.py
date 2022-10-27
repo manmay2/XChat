@@ -2,7 +2,16 @@ from encryption import encrypt
 from tkinter import Entry, Button, messagebox
 
 
-def signup(root, mycon, cursor):
+def signup(root, button, mycon, cursor):
+
+    def destroy(_, user_id):
+        ans = messagebox.askyesno("Xchat", "Are You Sure??")
+        if ans:
+            cursor.execute(
+                f"update signup set status='Offline' where username='{user_id}'")
+            mycon.commit()
+            root.destroy()
+
     def insert():
         user = str(user_name.get()).strip()
         pasWord = pas.get().strip()
@@ -31,6 +40,7 @@ def signup(root, mycon, cursor):
             user_name.delete(0, len("Enter User Name..."))
         elif str(event.widget) == ".!entry2" and pas.get() == "Enter Password...":
             pas.delete(0, len("Enter Password..."))
+
     user_name = Entry(root, width=23,
                       font=("Arial", 20))
     user_name.bind("<1>", onClick)
@@ -40,5 +50,6 @@ def signup(root, mycon, cursor):
     pas.insert(0, "Enter Password...")
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
+    button.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
 
-    Button(root, text="Sign Up...", command=insert).place(x=150, y=500)
+    Button(root, text="Sign Up...", command=insert, bd=0).place(x=150, y=500)
