@@ -1,14 +1,18 @@
 from client import *
 from encryption import encrypt
 from tkinter import Entry, Button, Frame, Label, messagebox, Listbox, Text, Button
+USERNAME = ""
 
 
 def signin(title, root, button, cursor, mycon, s):
-    def destroy(_, user_id):
+    global USERNAME
+
+    def destroy(_):
+        global USERNAME
         ans = messagebox.askyesno("Xchat", "Are You Sure??")
         if ans:
             cursor.execute(
-                f"update signup set status='Offline' where username='{user_id}'")
+                f"update signup set status='Offline' where username='{USERNAME}'")
             mycon.commit()
             root.destroy()
 
@@ -47,7 +51,7 @@ def signin(title, root, button, cursor, mycon, s):
         stat = Label(label_frame, text=f"{status}", fg="white", bg="green", font=(
             "Times New Roman", 15))
         stat.place(x=10, y=28)
-        frame = Frame(root, height=560, width=400)
+        frame = Frame(root, height=540, width=400)
         frame.place(x=0, y=100)
         frame.pack_propagate(0)
         msg = Text(root, bd=8, height=1, width=27, bg="#c7c9bd",
@@ -71,7 +75,9 @@ def signin(title, root, button, cursor, mycon, s):
         title.destroy()
 
     def insert():
+        global USERNAME
         user_id = user_name.get()
+        USERNAME = user_id
         paswd = pas.get()
         if (user_id == "" or paswd == "") or (user_id == "Enter User Name..." or paswd == "Enter Password..."):
             messagebox.showwarning("XChat", "Please provide valid input....")
@@ -131,14 +137,14 @@ def signin(title, root, button, cursor, mycon, s):
     user_name = Entry(root, width=23, font=("Arial", 20))
     user_name.bind("<1>", onClick)
     user_name.insert(0, "Enter User Name...")
+    USERNAME = user_name.get()
     user_name.place(x=50, y=130)
     pas = Entry(root, width=23, font=("Arial", 20))
     pas.insert(0, "Enter Password...")
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
-
-    bind = button.bind(
-        "<Button-1>", lambda _:  destroy(_, str(user_name.get())))
+    button.bind(
+        "<Button-1>", destroy)
 
     signInButton = Button(root, text="Sign In...",
                           command=insert)

@@ -18,18 +18,6 @@ def textCutter(text: str) -> str:
     return '\n'.join(group)
 
 
-def destroy(_, user_id, cursor, root, mycon):
-    ans = messagebox.askyesno("Xchat", "Are You Sure??")
-    if ans:
-        try:
-            cursor.execute(
-                f"update signup set status='Offline' where username='{user_id}'")
-            mycon.commit()
-            root.destroy()
-        except:
-            pass
-
-
 def Service(cursor, msg, sendButton, frame, stat, mycon,
             user_id, chat_user, table_name, s):
     import time
@@ -163,8 +151,6 @@ def multi(root, cursor, msg, sendButton, button, frame, stat, mycon,
 
     global KEY
     KEY = generate_key(table_name)
-    # button.bind("<Button-1>", lambda _:  destroy(_,
-    #             user_id, cursor, root, mycon))
     sendButton.bind("<Button-1>", lambda e: push(e, cursor, msg,
                     frame, stat, mycon, user_id, table_name, s))
     fetch(cursor, frame, stat, mycon, table_name, user_id, chat_user, s)
