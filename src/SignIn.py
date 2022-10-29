@@ -25,8 +25,8 @@ def signin(title, root, button, cursor, mycon, s):
         cond1 = user_id+str(chat_user)
         cond2 = str(chat_user)+user_id
         cursor.execute("show tables;")
-        tables = cursor.fetchall()
-        for temp in tables:
+        # tables = cursor.fetchall()
+        for temp in cursor:
             if temp[0] == cond1 or temp[0] == cond2:
                 table_name = temp[0]
                 break
@@ -49,16 +49,17 @@ def signin(title, root, button, cursor, mycon, s):
         stat.place(x=10, y=28)
         frame = Frame(root, height=560, width=400)
         frame.place(x=0, y=100)
+        frame.pack_propagate(0)
         msg = Text(root, bd=8, height=1, width=27, bg="#c7c9bd",
                    fg="black", font=("Aerial", 15))
         msg.place(x=20, y=650)
-        msg.configure(state='normal')
         sendButton = Button(root, text='SEND', height=2, width=4,
-                            bg='green', fg='white')
+                            bg='green', fg='black')
         sendButton.place(x=320, y=650)
         fetchall(frame, mycon, cursor, user_id, chat_user, table_name)
-        multi(cursor, msg, sendButton, frame, stat, mycon,
-              user_id, chat_user, table_name, s)
+        # button.unbind("<Button-1>", bind)
+        multi(root, cursor, msg, sendButton, button, frame, stat,
+              mycon, user_id, chat_user, table_name, s)
 
         # user_id = input("Enter your user name to login: ").strip()
         # paswd = input("Enter the password to login: ").strip()
@@ -136,7 +137,8 @@ def signin(title, root, button, cursor, mycon, s):
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
 
-    button.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
+    bind = button.bind(
+        "<Button-1>", lambda _:  destroy(_, str(user_name.get())))
 
     signInButton = Button(root, text="Sign In...",
                           command=insert)

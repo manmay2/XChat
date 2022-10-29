@@ -1,16 +1,20 @@
 from encryption import encrypt
 from tkinter import Entry, Button, messagebox
+from SignIn import *
 
 
-def signup(root, button, mycon, cursor):
+def signup(title, root, but, cursor, mycon, s):
 
     def destroy(_, user_id):
         ans = messagebox.askyesno("Xchat", "Are You Sure??")
         if ans:
-            cursor.execute(
-                f"update signup set status='Offline' where username='{user_id}'")
-            mycon.commit()
-            root.destroy()
+            try:
+                cursor.execute(
+                    f"update signup set status='Offline' where username='{user_id}'")
+                mycon.commit()
+                root.destroy()
+            except:
+                pass
 
     def insert():
         user = str(user_name.get()).strip()
@@ -32,14 +36,22 @@ def signup(root, button, mycon, cursor):
                 "insert into signup(username,password) values('{0}','{1}')".format(user, pasWord))
             mycon.commit()
             messagebox.showinfo("XChat", "Successfully Signed Up....")
+            user_name.destroy()
+            pas.destroy()
+            signupButton.destroy()
+            title.configure(text="Sign In")
+            signin(title, root, but, cursor, mycon, s)
+
     # user_name = input("Enter a user name: ").strip()
     # pas = input("Set a strong password for your account: ").strip()
 
     def onClick(event):
         if str(event.widget) == ".!entry" and user_name.get() == "Enter User Name...":
             user_name.delete(0, len("Enter User Name..."))
+            user_name.focus_force()
         elif str(event.widget) == ".!entry2" and pas.get() == "Enter Password...":
             pas.delete(0, len("Enter Password..."))
+            pas.focus_force()
 
     user_name = Entry(root, width=23,
                       font=("Arial", 20))
@@ -50,6 +62,7 @@ def signup(root, button, mycon, cursor):
     pas.insert(0, "Enter Password...")
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
-    button.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
+    but.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
 
-    Button(root, text="Sign Up...", command=insert, bd=0).place(x=150, y=500)
+    signupButton = Button(root, text="Sign Up...", command=insert, bd=0)
+    signupButton.place(x=150, y=500)

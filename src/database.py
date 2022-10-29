@@ -1,7 +1,7 @@
 import mysql.connector as s
 from SignIn import *
 from SignUp import *
-from tkinter import Frame, Label, PhotoImage, Radiobutton, IntVar, Toplevel, Tk
+from tkinter import Frame, Label, PhotoImage, Radiobutton, IntVar, Toplevel, Tk, messagebox as m
 import os
 # print("........WELCOME TO THE WORLD OF XCHAT APP.........")
 
@@ -11,7 +11,7 @@ try:
         choice = sButton.get()
         messageBox.destroy()
         if (choice == 1):
-            signup(root, but, mycon, cursor)
+            signup(title, root, but, cursor, mycon, s)
         elif (choice == 2):
             signin(title, root, but, cursor, mycon, s)
 
@@ -41,8 +41,8 @@ try:
 
         frame1 = Frame(root, bd=0, bg="#323232", width=width,
                        height=50).place(x=0, y=0)
-        # powerOff = PhotoImage(file="images/power-button.png")
-        but = Button(frame1, text="OFF", bd=0, bg="#323232",
+        powerOff = PhotoImage(file="images/power-button.png")
+        but = Button(frame1, image=powerOff, bd=0, bg="#323232",
                      fg="#323232")
         but.place(x=width-60, y=5)
         root.configure(background="#323232")
@@ -81,4 +81,5 @@ try:
     else:
         print("Connected Failed....")
 except Exception as e:
-    print("\nSomething error occured...Try after sometime", e)
+    # print("\nSomething error occured...Try after sometime", e)
+    m.showerror("Error", f"Program Exited with error code: {e.args[0]}")

@@ -1,3 +1,5 @@
+from sls import SLS_BOX, PRIVATE_KEY
+
 
 def STRING_TO_BINARY(char: str) -> str:
     """Converts input character into it's 8-bit binary value."""
@@ -115,14 +117,22 @@ def REVERSE_SHIFT(encrypted_String: str) -> list:
 
 def encrypt(password: str, private_key: str = "") -> str:
     """Encrypts the value passed as agrument. Returns a String format of the encrypted data"""
-    from sls import SLS_BOX, PRIVATE_KEY
+    if "\n" in password:
+        temp = ""
+        for i in password:
+            if i != '\n':
+                temp += i
+        password = temp
+    password.strip()
     hexa = ""
     if private_key == "":
         private_key = PRIVATE_KEY
     for i in password:
         hexa = hexa+" "+BINARY_TO_HEXA(XNOR(STRING_TO_BINARY(i), private_key))
     hexa = hexa.strip()
-    encrypt_level1 = SHIFT(hexa)
+    encrypt_level1 = hexa.split(" ")
+    if len(hexa) > 11:
+        encrypt_level1 = SHIFT(hexa)
     for i in range(0, len(encrypt_level1)):
         encrypt_level1[i] = SLS_BOX[encrypt_level1[i]]
     return ''.join(encrypt_level1)
@@ -130,7 +140,6 @@ def encrypt(password: str, private_key: str = "") -> str:
 
 def decrypt(encypted_data, private_key: str = ""):
     """Decrypts the given input to original form"""
-    from sls import SLS_BOX, PRIVATE_KEY
     if private_key == "":
         private_key = PRIVATE_KEY
     encypted_value = []
@@ -138,7 +147,8 @@ def decrypt(encypted_data, private_key: str = ""):
         for key, value in SLS_BOX.items():
             if encypted_data[i:i+2] == value:
                 encypted_value.append(key)
-    encypted_value = REVERSE_SHIFT(" ".join(encypted_value))
+    if len(encypted_value) > 4:
+        encypted_value = REVERSE_SHIFT(" ".join(encypted_value))
     original_text = ""
     for i in encypted_value:
         original_text += BINARY_TO_STRING(XNOR(HEXA_TO_BINARY(i), private_key))
