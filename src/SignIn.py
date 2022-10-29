@@ -62,7 +62,7 @@ def signin(title, root, button, cursor, mycon, s):
         sendButton.place(x=320, y=650)
         fetchall(frame, mycon, cursor, user_id, chat_user, table_name)
         # button.unbind("<Button-1>", bind)
-        multi(root, cursor, msg, sendButton, button, frame, stat,
+        multi(cursor, msg, sendButton, frame, stat,
               mycon, user_id, chat_user, table_name, s)
 
         # user_id = input("Enter your user name to login: ").strip()

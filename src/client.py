@@ -146,7 +146,7 @@ def Service(cursor, msg, sendButton, frame, stat, mycon,
                     mycon.commit()
 
 
-def multi(root, cursor, msg, sendButton, button, frame, stat, mycon,
+def multi(cursor, msg, sendButton, frame, stat, mycon,
           user_id, chat_user, table_name, s):
 
     global KEY
