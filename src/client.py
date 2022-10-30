@@ -151,8 +151,8 @@ def multi(cursor, msg, sendButton, frame, stat, mycon,
 
     global KEY
     KEY = generate_key(table_name)
-    sendButton.bind("<Button-1>", lambda e: push(e, cursor, msg,
-                    frame, stat, mycon, user_id, table_name, s))
+    sendButton.bind("<Button-1>", lambda _: push(_, cursor, msg,
+                    frame, mycon, user_id, table_name, s))
     fetch(cursor, frame, stat, mycon, table_name, user_id, chat_user, s)
     # try:
     #     push_thread = threading.Thread(
@@ -171,7 +171,7 @@ def multi(cursor, msg, sendButton, frame, stat, mycon,
     #     STOP = True
 
 
-def push(e, cursor, msg, frame, stat, mycon, user_id, table_name, s, text=""):
+def push(_, cursor, msg, frame, mycon, user_id, table_name, s, text=""):
     global STOP, REQUEST_FETCH, REQUEST_PUSH, KEY
     from datetime import datetime
     # print(f"{user_id}: ", end='')
@@ -200,7 +200,7 @@ def push(e, cursor, msg, frame, stat, mycon, user_id, table_name, s, text=""):
                     break
                 else:
                     continue
-        except:
+        except Exception as e:
             if not mycon.is_connected():
                 try:
                     mycon = s.connect(host=os.environ.get("DB_FOREIGN_SERVER"), user=os.environ.get("DB_FOREIGN_USER"),
@@ -240,7 +240,7 @@ def push(e, cursor, msg, frame, stat, mycon, user_id, table_name, s, text=""):
                 cursor.execute(
                     f"update signup set status='Offline' where username='{user_id}';")
                 mycon.commit()
-                raise Exception
+                messagebox.showerror("Error", f"Network Error..{e.args[0]}")
         # else:
         #     print("\x1B[1F", end='')
 
@@ -298,20 +298,20 @@ def fetch(cursor, frame, stat, mycon, table_name, user_id, chat_user, s):
                 cursor.execute(
                     f"update signup set status='Offline' where username='{user_id}';")
                 mycon.commit()
-                # raise Exception
-                # quit()
+
         else:
             try:
                 fetch(cursor, frame, stat, mycon,
                       table_name, user_id, chat_user, s)
-            except:
+            except Exception as e:
                 STOP = True
                 # print("Error occured in Fetching Data..\nLogged Out")
                 # quit()
                 cursor.execute(
                     f"update signup set status='Offline' where username='{user_id}';")
                 mycon.commit()
-                # raise Exception
+                messagebox.showerror(
+                    "Error", f"Network Error...\nError Code: {e.args[0]}")
     frame.after(1000, lambda: fetch(cursor, frame, stat,
                 mycon, table_name, user_id, chat_user, s))
 
@@ -353,9 +353,10 @@ def fetchall(frame, mycon, cursor, user_id, chat_user, table_name):
                     Label(frame, text=text_, bg="green", fg="white", font=(
                         "Aerial", 18), justify=LEFT, anchor=W, bd=0, padx=5).pack(pady=5, padx=10, ipady=2, anchor=E)
         MSG = chat_user_msg
-    except:
+    except Exception as e:
         # print("Some error occured...Try again later\nLogged Out")
         cursor.execute(
             f"update signup set status='Offline' where username='{user_id}';")
         mycon.commit()
-        # raise Exception
+        messagebox.showerror(
+            "Error", f"Network Error...\nError Code: {e.args[0]}")

@@ -26,7 +26,6 @@ try:
         def disable_event():
             pass
         root = Tk()
-        # root.wm_overrideredirect(True)
         root.resizable(False, False)
         root.protocol("WM_DELETE_WINDOW", disable_event)
         width = 400
@@ -42,8 +41,7 @@ try:
         frame1 = Frame(root, bd=0, bg="#323232", width=width,
                        height=50).place(x=0, y=0)
         powerOff = PhotoImage(file="images/power-button.png")
-        but = Button(frame1, image=powerOff, bd=0, bg="#323232",
-                     fg="#323232")
+        but = Button(frame1, image=powerOff, highlightthickness=0, bd=0)
         but.place(x=width-60, y=5)
         root.configure(background="#323232")
         root.title("XChat")
@@ -53,8 +51,8 @@ try:
         messageBox = Toplevel(root)
         messageBox.wm_overrideredirect(True)
         messageBox.focus_force()
-        messageBox.lift()
-        messageBox.attributes("-topmost", True)
+        messageBox.wm_attributes("-topmost", True)
+        messageBox.grab_set()
         messageBox.geometry(
             '%dx%d+%d+%d' % (width, height-width, x, (screen_height/2) - (height/2) + 250))
         messageBox.configure(background="#323232")

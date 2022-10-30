@@ -1,11 +1,18 @@
 from client import *
 from encryption import encrypt
-from tkinter import Entry, Button, Frame, Label, messagebox, Listbox, Text, Button
+from tkinter import Canvas, Entry, Button, Frame, Label, PhotoImage, Scrollbar, messagebox, Listbox, Text, Button
+import platform
 USERNAME = ""
 
 
 def signin(title, root, button, cursor, mycon, s):
     global USERNAME
+
+    def _on_mousewheel(event, canvas):
+        if platform.system() == "Darwin":
+            canvas.yview_scroll(-1*event.delta, "units")
+        elif platform.system() == "Windows":
+            canvas.yview_scroll(-1*(event.delta)//120, "units")
 
     def destroy(_):
         global USERNAME
@@ -42,8 +49,9 @@ def signin(title, root, button, cursor, mycon, s):
             cursor.execute(
                 f"update signup set status='Online' where username='{user_id}';")
             mycon.commit()
-        except:
-            raise Exception
+        except Exception as e:
+            messagebox.showerror(
+                "Error", f"Server Error...\nError Code: {e.args[0]}")
         label_frame = Frame(root, height=50, width=400, bg='green')
         label_frame.place(x=0, y=50)
         Label(label_frame, text=f"{name}", fg="white", bg="green", font=(
@@ -51,15 +59,34 @@ def signin(title, root, button, cursor, mycon, s):
         stat = Label(label_frame, text=f"{status}", fg="white", bg="green", font=(
             "Times New Roman", 15))
         stat.place(x=10, y=28)
-        frame = Frame(root, height=540, width=400)
-        frame.place(x=0, y=100)
-        frame.pack_propagate(0)
-        msg = Text(root, bd=8, height=1, width=27, bg="#c7c9bd",
+
+        # container = Frame(root, height=520, width=400)
+        canvas = Canvas(root, height=540, width=400)
+        scrollbar = Scrollbar(
+            root, orient="vertical", command=canvas.yview)
+        frame = Frame(canvas, width=400)
+        # container.place(x=0, y=100)
+        frame.pack()
+        frame.bind(
+            "<Configure>",
+            lambda _: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+        canvas.bind_all("<MouseWheel>", lambda e: _on_mousewheel(e, canvas))
+        canvas.create_window((0, 0), window=frame)
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.place(x=0, y=100)
+        # canvas.pack_propagate(0)
+        # scrollbar.pack(side="right", fill="y")
+        msg = Text(root, bd=8, height=1, width=30, bg="#c7c9bd",
                    fg="black", font=("Aerial", 15))
         msg.place(x=20, y=650)
-        sendButton = Button(root, text='SEND', height=2, width=4,
-                            bg='green', fg='black')
-        sendButton.place(x=320, y=650)
+        sendButtonImage = PhotoImage(file='images/send.png')
+        sendButton = Button(root, image=sendButtonImage,
+                            highlightthickness=0, bd=0)
+        sendButton.photoimage = sendButtonImage
+        sendButton.place(x=350, y=650)
         fetchall(frame, mycon, cursor, user_id, chat_user, table_name)
         # button.unbind("<Button-1>", bind)
         multi(cursor, msg, sendButton, frame, stat,
@@ -122,9 +149,11 @@ def signin(title, root, button, cursor, mycon, s):
                     listBox.insert("end", "No Other user available...")
                 else:
                     # ch = int(input("WHOM DO YOU WANT TO CHAT--- : "))
-                    button = Button(root, text="Start Chat..",
+                    startchat = PhotoImage(file="images/startchat.png")
+                    button = Button(root, image=startchat,
                                     command=lambda: itemSelect(user_id, data, listBox, label, button), bd=0)
-                    button.place(x=150, y=420)
+                    button.place(x=100, y=420)
+                    button.photoimage = startchat
 
     def onClick(event):
         if str(event.widget) == ".!entry" and user_name.get() == "Enter User Name...":
@@ -132,6 +161,7 @@ def signin(title, root, button, cursor, mycon, s):
             user_name.focus_force()
         elif str(event.widget) == ".!entry2" and pas.get() == "Enter Password...":
             pas.delete(0, len("Enter Password..."))
+            pas.config(show='*')
             pas.focus_force()
 
     user_name = Entry(root, width=23, font=("Arial", 20))
@@ -145,7 +175,8 @@ def signin(title, root, button, cursor, mycon, s):
     pas.place(x=50, y=260)
     button.bind(
         "<Button-1>", destroy)
-
-    signInButton = Button(root, text="Sign In...",
+    signin = PhotoImage(file="images/signin.png")
+    signInButton = Button(root, image=signin,
                           command=insert)
-    signInButton.place(x=150, y=500)
+    signInButton.photoimage = signin
+    signInButton.place(x=100, y=500)

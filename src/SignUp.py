@@ -8,13 +8,7 @@ def signup(title, root, but, cursor, mycon, s):
     def destroy(_, user_id):
         ans = messagebox.askyesno("Xchat", "Are You Sure??")
         if ans:
-            try:
-                cursor.execute(
-                    f"update signup set status='Offline' where username='{user_id}'")
-                mycon.commit()
-                root.destroy()
-            except:
-                pass
+            root.destroy()
 
     def insert():
         user = str(user_name.get()).strip()
@@ -51,6 +45,7 @@ def signup(title, root, but, cursor, mycon, s):
             user_name.focus_force()
         elif str(event.widget) == ".!entry2" and pas.get() == "Enter Password...":
             pas.delete(0, len("Enter Password..."))
+            pas.config(show='*')
             pas.focus_force()
 
     user_name = Entry(root, width=23,
@@ -63,6 +58,7 @@ def signup(title, root, but, cursor, mycon, s):
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
     but.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
-
-    signupButton = Button(root, text="Sign Up...", command=insert, bd=0)
-    signupButton.place(x=150, y=500)
+    signup = PhotoImage(file="images/signup.png")
+    signupButton = Button(root, image=signup, command=insert, bd=0)
+    signupButton.photoimage = signup
+    signupButton.place(x=100, y=500)
