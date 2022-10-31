@@ -88,12 +88,8 @@ def signin(title, root, button, cursor, mycon, s):
         sendButton.photoimage = sendButtonImage
         sendButton.place(x=350, y=650)
         fetchall(frame, mycon, cursor, user_id, chat_user, table_name)
-        # button.unbind("<Button-1>", bind)
         multi(cursor, msg, sendButton, frame, stat,
               mycon, user_id, chat_user, table_name, s)
-
-        # user_id = input("Enter your user name to login: ").strip()
-        # paswd = input("Enter the password to login: ").strip()
 
     def delete():
         user_name.destroy()

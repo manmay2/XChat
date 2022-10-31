@@ -17,6 +17,7 @@ try:
 
     mycon = s.connect(host=os.environ.get("DB_SERVER"), user=os.environ.get("DB_USER"),
                       password=os.environ.get("DB_PASS"), database=os.environ.get("DB_NAME"))
+    # mycon=s.connect(host="localhost",user="root",passwd="Soumadeep@123",database="xchat")
     if mycon.is_connected():
         cursor = mycon.cursor()
 
@@ -65,11 +66,6 @@ try:
                     value=2, bg="#323232", command=lambda: event("Sign In"), fg="white").place(x=150, y=80)
         Radiobutton(messageBox, text="Exit", font=("Aerial", 15),
                     value="Exit", command=lambda: root.destroy(), bg="#323232", fg="white").place(x=150, y=110)
-        # print("1. NEW TO THE APP!! PRESS 1 TO SIGN UP")
-        # print("2. ALREADY HAVE AN ACCOUNT !! PRESS 2 TO SIGN IN")
-        # print("3. Exit")
-
-        # choice = int(input("ENTER YOUR CHOICE: "))
 
         title = Label(root, bg="#323232", fg="white",
                       font=("Times New Roman", 40))
@@ -79,5 +75,4 @@ try:
     else:
         print("Connected Failed....")
 except Exception as e:
-    # print("\nSomething error occured...Try after sometime", e)
     m.showerror("Error", f"Program Exited with error code: {e.args[0]}")
