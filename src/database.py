@@ -17,7 +17,6 @@ try:
 
     mycon = s.connect(host=os.environ.get("DB_SERVER"), user=os.environ.get("DB_USER"),
                       password=os.environ.get("DB_PASS"), database=os.environ.get("DB_NAME"))
-    # mycon=s.connect(host="localhost",user="root",passwd="Soumadeep@123",database="xchat")
     if mycon.is_connected():
         cursor = mycon.cursor()
 
@@ -48,7 +47,6 @@ try:
         root.title("XChat")
         choice = 0
         sButton = IntVar()
-
         messageBox = Toplevel(root)
         messageBox.wm_overrideredirect(True)
         messageBox.focus_force()
