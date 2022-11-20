@@ -50,6 +50,7 @@ def XNOR(binary1: str, binary2: str) -> str:
 def SHIFT(encrypted_String: str) -> list:
     """Shifts the input value..."""
     encrypted_values = encrypted_String.split(" ")
+    print(encrypted_values)
     shift_index = 1
     var = 0
     temp = 0
@@ -77,20 +78,21 @@ def SHIFT(encrypted_String: str) -> list:
 
         elif shift_index == 4:
             continue
-
+    #print(encrypted_values)
     return encrypted_values
 
 
 def REVERSE_SHIFT(encrypted_String: str) -> list:
     """Reverse The shifting algorithm"""
     encrypted_values = encrypted_String.split(" ")
+    print(encrypted_values)
     shift_index = 3
     var = 0
     temp = 0
     for item in range(0, len(encrypted_values)-2):
         if (item+1) % 4 == 0:
-            if shift_index == 4:
-                shift_index = 1
+            if shift_index == 0:
+                shift_index = 3
                 temp = 0
                 continue
             shift_index -= 1
@@ -111,7 +113,7 @@ def REVERSE_SHIFT(encrypted_String: str) -> list:
 
         elif shift_index == 4:
             continue
-
+    print(encrypted_values)
     return encrypted_values
 
 
@@ -170,3 +172,12 @@ def generate_key(name: str) -> str:
             sub_key2 = "0"*(8-len(sub_key2))+sub_key2
         key = XNOR(sub_key1, sub_key2)
     return key
+
+
+# print("The only fast, reliable, and highly trusted and end-to-end encypted source of communication. -XChat")
+# print(encrypt("The only fast, reliable, and highly trusted and end-to-end encypted source of communication. -XChat"))
+# print(decrypt(encrypt("The only fast, reliable, and highly trusted and end-to-end encypted source of communication. -XChat")))
+#print("HELLO MANMAY.")
+#print(encrypt("HELLO MANMAY."))
+#print(decrypt(encrypt(
+#    "HELLO MANMAY.")))
