@@ -15,8 +15,10 @@ try:
         elif (choice == 2):
             signin(title, root, but, cursor, mycon, s)
 
-    mycon = s.connect(host=os.environ.get("DB_SERVER"), user=os.environ.get("DB_USER"),
-                      password=os.environ.get("DB_PASS"), database=os.environ.get("DB_NAME"))
+    mycon = s.connect(host=os.environ.get("DB_FOREIGN_SERVER"), user=os.environ.get("DB_FOREIGN_USER"),
+                      password=os.environ.get("DB_FOREIGN_PASS"), database=os.environ.get("DB_FOREIGN_NAME"))
+    # mycon = s.connect(host=os.environ.get("DB_SERVER"), user=os.environ.get("DB_USER"),
+    #                   password=os.environ.get("DB_PASS"), database=os.environ.get("DB_NAME"))
     if mycon.is_connected():
         cursor = mycon.cursor()
 

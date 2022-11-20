@@ -5,7 +5,7 @@ from SignIn import *
 
 def signup(title, root, but, cursor, mycon, s):
 
-    def destroy(_, user_id):
+    def destroy(_):
         ans = messagebox.askyesno("Xchat", "Are You Sure??")
         if ans:
             root.destroy()
@@ -57,7 +57,7 @@ def signup(title, root, but, cursor, mycon, s):
     pas.insert(0, "Enter Password...")
     pas.bind("<1>", onClick)
     pas.place(x=50, y=260)
-    but.bind("<Button-1>", lambda _:  destroy(_, str(user_name.get())))
+    but.bind("<Button-1>", lambda _:  destroy(_))
     signup = PhotoImage(file="images/signup.png")
     signupButton = Button(root, image=signup, command=insert, bd=0)
     signupButton.photoimage = signup

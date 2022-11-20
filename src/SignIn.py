@@ -35,6 +35,7 @@ def signin(title, root, button, cursor, mycon, s):
         chat_user = ''.join(str(data[ch-1][0]).split())
         cond1 = user_id+str(chat_user)
         cond2 = str(chat_user)+user_id
+        cursor = mycon.cursor(buffered=True)
         cursor.execute("show tables;")
         # tables = cursor.fetchall()
         for temp in cursor:
@@ -46,6 +47,7 @@ def signin(title, root, button, cursor, mycon, s):
         try:
             query = f"create table if not exists {table_name}({user_id} LONGTEXT,{str(chat_user)} LONGTEXT);"
             cursor.execute(query)
+            cursor = mycon.cursor(buffered=True)
             cursor.execute(
                 f"update signup set status='Online' where username='{user_id}';")
             mycon.commit()
