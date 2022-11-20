@@ -89,8 +89,8 @@ def REVERSE_SHIFT(encrypted_String: str) -> list:
     temp = 0
     for item in range(0, len(encrypted_values)-2):
         if (item+1) % 4 == 0:
-            if shift_index == 4:
-                shift_index = 1
+            if shift_index == 0:
+                shift_index = 3
                 temp = 0
                 continue
             shift_index -= 1
