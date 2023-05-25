@@ -1,5 +1,5 @@
 <!-- ![Logo](src/images/1st.PNG) -->
-<kbd>![Image](src/images/1st.PNG)</kbd>
+<kbd>![image](src/images/1st.PNG)</kbd>
 
 
 
