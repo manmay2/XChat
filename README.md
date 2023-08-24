@@ -25,6 +25,15 @@ Go to the project directory, run the main.py file on VS Code or IDLE python in 3
 This project is made by the following companies:
 - [Ahens | An Initiative to Initial](https://www.ahens.rf.gd)
 
+## Few Pictueres of XChat 
+<!-- ![Logo](src/images/demo3.PNG) -->
+<kbd>![image](src/images/demo3.PNG)</kbd>
+
+<!-- ![Logo](src/images/demo2.PNG) -->
+<kbd>![image](src/images/demo2.PNG)</kbd>
+
+<!-- ![Logo](src/images/demo1.PNG) -->
+<kbd>![image](src/images/demo1.PNG)</kbd>
 
 ## FUTURE SCOPE(to be added in future) :
  - I) ENHANCING THE UI(USER INTERFACE).
