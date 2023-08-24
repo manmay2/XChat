@@ -25,7 +25,7 @@ Go to the project directory, run the main.py file on VS Code or IDLE python in 3
 This project is made by the following companies:
 - [Ahens | An Initiative to Initial](https://www.ahens.rf.gd)
 
-## Few Pictueres of XChat 
+## Demo Images 
 <!-- ![Logo](src/images/demo3.PNG) -->
 <kbd>![image](src/images/demo3.PNG)</kbd>
 
