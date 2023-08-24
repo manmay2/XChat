@@ -19,11 +19,7 @@ Go to the project directory, run the main.py file on VS Code or IDLE python in 3
 
 
  
- 
-## Made By
 
-This project is made by the following companies:
-- [Ahens | An Initiative to Initial](https://www.ahens.rf.gd)
 
 ## Demo Images 
 <!-- ![Logo](src/images/demo3.PNG) -->
