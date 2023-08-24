@@ -1,5 +1,5 @@
 <!-- ![Logo](src/images/1st.PNG) -->
-<kbd>![Image](src/images/1st.PNG)</kbd>
+<kbd>![image](src/images/1st.PNG)</kbd>
 
 
 
@@ -18,9 +18,6 @@ Clone the project
 Go to the project directory, run the main.py file on VS Code or IDLE python in 3.x version.
 
 
-## Documentation
-
-[Documentation](https://linktodocumentation)
  
  
 ## Made By
@@ -30,7 +27,7 @@ This project is made by the following companies:
 
 
 ## FUTURE SCOPE(to be added in future) :
- - I) ENHACNING THE UI(USER INTERFACE).
+ - I) ENHANCING THE UI(USER INTERFACE).
  - II) ADDING SEVERAL FEATURES LIKE deleting the messages, seeing the last seen time , ETC.
  
  
